@@ -1,6 +1,9 @@
 import React from "react";
 import "./App.css";
 import BookList from "./components/BookList";
+import Header from "./components/Header";
+import AddBook from "./components/AddBook";
+import { v4 as uuidv4 } from "uuid";
 
 class App extends React.Component {
   state = {
@@ -29,6 +32,7 @@ class App extends React.Component {
     ]
   };
 
+  // Mark read
   markRead = id => {
     this.setState({
       books: this.state.books.map(book => {
@@ -40,11 +44,41 @@ class App extends React.Component {
     });
   };
 
+  //Delete book
+  delBook = id => {
+    this.setState({
+      books: [
+        ...this.state.books.filter(book => {
+          return book.id !== id;
+        })
+      ]
+    });
+  };
+
+  // Add Book
+  addBook = state => {
+    const newBook = {
+      id: uuidv4(),
+      title: state.title,
+      author: state.author,
+      pages: state.pages,
+      read: state.read
+    };
+    this.setState({
+      books: [...this.state.books, newBook]
+    });
+  };
+
   render() {
     return (
       <div>
-        <h1>Library (React App)</h1>
-        <BookList books={this.state.books} markRead={this.markRead} />
+        <Header />
+        <AddBook addBook={this.addBook} />
+        <BookList
+          books={this.state.books}
+          markRead={this.markRead}
+          delBook={this.delBook}
+        />
       </div>
     );
   }

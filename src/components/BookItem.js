@@ -8,11 +8,8 @@ export class BookItem extends Component {
     };
   };
 
-  delBook = e => {
-    console.log(12345);
-  };
   render() {
-    const { title, author, pages, id } = this.props.book;
+    const { title, author, pages, id, read } = this.props.book;
     return (
       <div
         style={{
@@ -23,7 +20,10 @@ export class BookItem extends Component {
       >
         <h3>
           {title}{" "}
-          <button onClick={this.delBook()} className="btn-delete">
+          <button
+            onClick={this.props.delBook.bind(this, id)}
+            className="btn-delete"
+          >
             x
           </button>
         </h3>
@@ -33,6 +33,7 @@ export class BookItem extends Component {
           <input
             type="checkbox"
             onChange={this.props.markRead.bind(this, id)}
+            defaultChecked={read}
           ></input>{" "}
           Read
         </p>
